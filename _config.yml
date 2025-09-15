@@ -1,1 +1,65 @@
-title: RedstoneMaster01's Development
+# _config.yml — GitHub Pages site config
+title: "Lucas' Lab"
+description: "Modular builds, immersive control systems, and pixel-perfect code."
+url: "https://RedstoneMaster011.github.io"
+baseurl: "/your-repo-name" # replace with your actual repo name if needed
+
+# Theme and layout
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-include-cache
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+future: true
+strict_front_matter: true
+show_excerpts: true
+
+# Navigation
+header_pages:
+  - index.md
+  - projects.md
+  - blog.md
+  - contact.md
+
+# Social links
+social:
+  github: RedstoneMaster011
+  linkedin: yourlinkedin
+  twitter: yourhandle
+  email: you@example.com
+
+# Custom flags
+lucas_mode: true
+hardware_projects: true
+minecraft_modding: true
+node_exporter: true
+
+# SEO & metadata
+seo:
+  name: "Lucas"
+  type: "Person"
+  twitter: "@yourhandle"
+  github: "https://github.com/RedstoneMaster011"
+  description: "Hands-on hardware integrator and modular code optimizer."
+
+# Exclude from build
+exclude:
+  - README.md
+  - node_modules
+  - vendor
+
+# Future-proofing
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Lucas"
+      comments: true
