@@ -3,7 +3,7 @@ layout: home
 title: Welcome to RedstoneMaster01 Development
 ---
 
-I Develop / Make Stuff Here
+I Develop Stuff That Has To Do With Minecraft And Coding
 
 [![GitHub](https://img.shields.io/badge/GitHub-RedstoneMaster011-black?style=for-the-badge&logo=github)](https://github.com/RedstoneMaster011)
 [![Discord](https://img.shields.io/badge/Discord-RedstoneMaster01-blue?style=for-the-badge&logo=discord)](https://discord.gg/Gsd3dN4572)
