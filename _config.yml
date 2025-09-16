@@ -1,5 +1,5 @@
 # _config.yml — GitHub Pages config for RedstoneMaster01's Development
-title: "RedstoneMaster01's Development"
+title: "RedstoneMaster01 Development"
 description: "Development Website"
 url: "https://github.com/RedstoneMaster011" # now points to your GitHub profile
 baseurl: "" # leave blank since you're not hosting a subpath
