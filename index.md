@@ -12,11 +12,16 @@ I Develop / Make Stuff Here
 
 <div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #1e1e1e; color: #f0f0f0; scrollbar-width: thin;">
 
-- **[9/15/2025]** [Animated-Java-To-DF-Updated](https://github.com/RedstoneMaster011/animated-java-to-df-updated)  
-- **[9/10/2025]** [Joystick-Matrix-Diagnostics](https://github.com/RedstoneMaster011/joystick-matrix-diagnostics)  
-- **[9/05/2025]** [NBT-To-Component-Exporter](https://github.com/RedstoneMaster011/nbt-to-component-exporter)  
-- **[8/28/2025]** [GitHub-Pages-Debug-Overlay](https://github.com/RedstoneMaster011/github-pages-debug-overlay)  
-- **[8/20/2025]** [Node-TS-Build-Fix](https://github.com/RedstoneMaster011/node-ts-build-fix)  
-- *(Add more entries as needed)*
+<p><strong>[9/15/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a></p>
+
+<p><strong>[9/10/2025]</strong> <a href="https://github.com/RedstoneMaster011/joystick-matrix-diagnostics">Joystick-Matrix-Diagnostics</a></p>
+
+<p><strong>[9/05/2025]</strong> <a href="https://github.com/RedstoneMaster011/nbt-to-component-exporter">NBT-To-Component-Exporter</a></p>
+
+<p><strong>[8/28/2025]</strong> <a href="https://github.com/RedstoneMaster011/github-pages-debug-overlay">GitHub-Pages-Debug-Overlay</a></p>
+
+<p><strong>[8/20/2025]</strong> <a href="https://github.com/RedstoneMaster011/node-ts-build-fix">Node-TS-Build-Fix</a></p>
+
+<!-- Add more updates below -->
 
 </div>
