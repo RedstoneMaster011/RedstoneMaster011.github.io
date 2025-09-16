@@ -29,9 +29,8 @@ header_pages:
 # Social links
 social:
   github: RedstoneMaster011
-  linkedin: yourlinkedin
-  twitter: yourhandle
-  email: you@example.com
+  email: redstonemaster109lukas@gmail.com
+  youtube: RedstoneMaster01
 
 # Custom flags
 redstone_mode: true
@@ -44,7 +43,6 @@ node_exporter: true
 seo:
   name: "RedstoneMaster01"
   type: "Person"
-  twitter: "@yourhandle"
   github: "https://github.com/RedstoneMaster011"
   description: "I Code / Build Stuff Here"
 
