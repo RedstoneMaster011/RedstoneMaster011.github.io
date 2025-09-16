@@ -10,7 +10,7 @@ I Develop / Make Stuff Here
 
 ## 🔧 Project Updates
 
-<div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #8b0000; color: #f0f0f0; scrollbar-width: thin;">
+<div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #000000; color: #f0f0f0; scrollbar-width: thin;">
 
 <p><strong>[9/15/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a></p>
 
