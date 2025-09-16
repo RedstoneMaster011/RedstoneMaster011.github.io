@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Welcome to Lucas' Lab
+title: Welcome to RedstoneMaster01 Development
 ---
 
-This is where modular builds and immersive control systems come to life.
+I Develop / Make Stuff Here
