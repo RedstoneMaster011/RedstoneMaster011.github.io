@@ -1,8 +1,8 @@
-# _config.yml — GitHub Pages site config
-title: "Lucas' Lab"
-description: "Modular builds, immersive control systems, and pixel-perfect code."
-url: "https://RedstoneMaster011.github.io"
-baseurl: "/your-repo-name" # replace with your actual repo name if needed
+# _config.yml — GitHub Pages config for RedstoneMaster01's Development
+title: "RedstoneMaster01's Development"
+description: "Modular hardware builds, immersive control systems, and pixel-perfect code."
+url: "https://github.com/RedstoneMaster011" # now points to your GitHub profile
+baseurl: "" # leave blank since you're not hosting a subpath
 
 # Theme and layout
 theme: minima
@@ -34,18 +34,19 @@ social:
   email: you@example.com
 
 # Custom flags
-lucas_mode: true
-hardware_projects: true
+redstone_mode: true
+arduino_projects: true
+matrix_control: true
 minecraft_modding: true
 node_exporter: true
 
 # SEO & metadata
 seo:
-  name: "Lucas"
+  name: "RedstoneMaster01"
   type: "Person"
   twitter: "@yourhandle"
   github: "https://github.com/RedstoneMaster011"
-  description: "Hands-on hardware integrator and modular code optimizer."
+  description: "Hardware integrator and modular code optimizer focused on immersive control systems."
 
 # Exclude from build
 exclude:
@@ -61,5 +62,5 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "Lucas"
+      author: "RedstoneMaster01"
       comments: true
