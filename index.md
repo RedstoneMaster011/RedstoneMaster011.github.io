@@ -13,6 +13,8 @@ I Develop Stuff That Has To Do With Minecraft And Coding
 
 <div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #262626; color: #f0f0f0; scrollbar-width: thin;">
 
+<p><strong>[10/3/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> 1.21.4+ Does Work Now. Sorry For The Wait</p>
+
 <p><strong>[9/20/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> 1.21.4+ Support!!!</p>
 
 <p><strong>[9/16/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> Forgot The Loader</p>
