@@ -13,6 +13,8 @@ I Develop Stuff That Has To Do With Minecraft And Coding
 
 <div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #262626; color: #f0f0f0; scrollbar-width: thin;">
 
+<p><strong>[10/27/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Forgot to say, this mod is on modrinth, and on v0.3 now</p>
+
 <p><strong>[10/19/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Made This Mod Open Source</p>
 
 <p><strong>[10/3/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> 1.21.4+ Does Work Now. Sorry For The Wait</p>
