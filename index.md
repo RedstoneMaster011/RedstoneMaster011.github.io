@@ -12,6 +12,8 @@ I Develop Stuff That Has To Do With Minecraft And Coding
 
 <div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #262626; color: #f0f0f0; scrollbar-width: thin;">
 
+<p><strong>[10/27/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> on v0.4 now</p>
+
 <p><strong>[10/27/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Forgot to say, this mod is on modrinth, and on v0.3 now</p>
 
 <p><strong>[10/19/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Made This Mod Open Source</p>
