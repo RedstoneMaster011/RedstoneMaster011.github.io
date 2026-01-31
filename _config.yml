@@ -1,7 +1,9 @@
+# _config.yml
 title: "RedstoneMaster01 Development"
 description: "Development Website"
-url: "https://github.com/RedstoneMaster011
+url: "https://github.com/RedstoneMaster011"
 baseurl: ""
+
 
 theme: minima
 plugins:
@@ -17,7 +19,6 @@ future: true
 strict_front_matter: true
 show_excerpts: true
 
-
 header_pages:
   - index.md
   - projects.md
@@ -30,11 +31,13 @@ social:
   email: redstonemaster109lukas@gmail.com
   youtube: RedstoneMaster01
 
+
 redstone_mode: true
 arduino_projects: true
 matrix_control: true
 minecraft_modding: true
 node_exporter: true
+
 
 seo:
   name: "RedstoneMaster01"
@@ -42,10 +45,12 @@ seo:
   github: "https://github.com/RedstoneMaster011"
   description: "I Code / Build Stuff Here"
 
+
 exclude:
   - README.md
   - node_modules
   - vendor
+
 
 defaults:
   -
