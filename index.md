@@ -11,6 +11,8 @@ I Develop Stuff That Has To Do With Minecraft And Coding
 ## 🔧 Project Updates
 
 <div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #262626; color: #f0f0f0; scrollbar-width: thin;">
+
+<p><strong>[1/31/2026]</strong> <a href="https://github.com/RedstoneMaster011/OperationCrafter">OperationCrafter</a> is now released! v1.0</p>
   
 <p><strong>[*/*/2025]</strong> <a href="https://github.com/RedstoneMaster011/TreeFalling">TreeFalling</a> on v0.2 now</p>
 
