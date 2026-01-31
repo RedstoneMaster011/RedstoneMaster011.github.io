@@ -1,10 +1,8 @@
-# _config.yml — GitHub Pages config for RedstoneMaster01's Development
 title: "RedstoneMaster01 Development"
 description: "Development Website"
-url: "https://github.com/RedstoneMaster011" # now points to your GitHub profile
-baseurl: "" # leave blank since you're not hosting a subpath
+url: "https://github.com/RedstoneMaster011
+baseurl: ""
 
-# Theme and layout
 theme: minima
 plugins:
   - jekyll-feed
@@ -12,47 +10,43 @@ plugins:
   - jekyll-sitemap
   - jekyll-include-cache
 
-# Build settings
+
 markdown: kramdown
 highlighter: rouge
 future: true
 strict_front_matter: true
 show_excerpts: true
 
-# Navigation
+
 header_pages:
   - index.md
   - projects.md
   - blog.md
   - contact.md
 
-# Social links
+
 social:
   github: RedstoneMaster011
   email: redstonemaster109lukas@gmail.com
   youtube: RedstoneMaster01
 
-# Custom flags
 redstone_mode: true
 arduino_projects: true
 matrix_control: true
 minecraft_modding: true
 node_exporter: true
 
-# SEO & metadata
 seo:
   name: "RedstoneMaster01"
   type: "Person"
   github: "https://github.com/RedstoneMaster011"
   description: "I Code / Build Stuff Here"
 
-# Exclude from build
 exclude:
   - README.md
   - node_modules
   - vendor
 
-# Future-proofing
 defaults:
   -
     scope:
