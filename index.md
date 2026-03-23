@@ -1,37 +1,4 @@
----
-layout: home
-title: Welcome to RedstoneMaster01 Development
----
-
 I Develop Stuff That Has To Do With Minecraft And Coding
 
 [![GitHub](https://img.shields.io/badge/GitHub-RedstoneMaster011-black?style=for-the-badge&logo=github)](https://github.com/RedstoneMaster011)
 [![YouTube](https://img.shields.io/badge/YouTube-RedstoneMaster01-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@RedstoneMaster01)
-
-## 🔧 Project Updates
-
-<div style="width: 100%; max-height: 250px; overflow-y: scroll; border: 2px solid #444; padding: 10px; background-color: #262626; color: #f0f0f0; scrollbar-width: thin;">
-
-<p><strong>[1/31/2026]</strong> <a href="https://github.com/RedstoneMaster011/OperationCrafter">OperationCrafter</a> is now released! v1.0</p>
-  
-<p><strong>[*/*/2025]</strong> <a href="https://github.com/RedstoneMaster011/TreeFalling">TreeFalling</a> on v0.2 now</p>
-
-<p><strong>[*/*/2025]</strong> <a href="https://github.com/RedstoneMaster011/TreeFalling">TreeFalling</a> on v0.1 now</p>
-
-<p><strong>[*/*/2025]</strong> <a href="https://github.com/RedstoneMaster011/Schizophrenia">Schizophrenia</a> created</p>
-
-<p><strong>[10/27/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> on v0.4 now</p>
-
-<p><strong>[10/27/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Forgot to say, this mod is on modrinth, and on v0.3 now</p>
-
-<p><strong>[10/19/2025]</strong> <a href="https://github.com/RedstoneMaster011/Vetheroac">Vetheroac</a> Made This Mod Open Source</p>
-
-<p><strong>[10/3/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> 1.21.4+ Does Work Now. Sorry For The Wait</p>
-
-<p><strong>[9/20/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> 1.21.4+ Support!!!</p>
-
-<p><strong>[9/16/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> Forgot The Loader</p>
-
-<p><strong>[9/15/2025]</strong> <a href="https://github.com/RedstoneMaster011/animated-java-to-df-updated">Animated-Java-To-DF-Updated</a> First Release Added 1.20.5-1.21.3 Support</p>
-
-</div>
