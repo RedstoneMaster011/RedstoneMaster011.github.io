@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RedstoneMaster01 — Dev</title>
+  <meta name="description" content="I Code / Build Stuff Here — Minecraft, Arduino, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #e8321a;
+      --red-glow: #ff4422;
+      --red-dim:  #7a1a0e;
+      --orange:   #ff7a33;
+      --bg:       #0a0a0b;
+      --bg2:      #111114;
+      --bg3:      #18181e;
+      --border:   #2a1a14;
+      --text:     #e8ddd8;
+      --muted:    #7a6860;
+      --mono:     'Share Tech Mono', monospace;
+      --pixel:    'Press Start 2P', monospace;
+      --body:     'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── CIRCUIT BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232,50,26,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,50,26,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--pixel);
+      font-size: 0.55rem;
+      color: var(--red-glow);
+      text-shadow: 0 0 12px var(--red-glow);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--red-glow);
+      box-shadow: 0 0 6px var(--red-glow);
+      transition: width 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-icon {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .nav-icon:hover { color: var(--red-glow) !important; }
+    .nav-icon::after { display: none !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 2rem 2rem;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--red);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-tag::before { content: '// '; opacity: 0.5; }
+
+    .hero-name {
+      font-family: var(--pixel);
+      font-size: clamp(1.1rem, 3.5vw, 2rem);
+      line-height: 1.6;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(232,50,26,0.3);
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+
+    .hero-name span {
+      color: var(--red-glow);
+      text-shadow: 0 0 20px var(--red-glow), 0 0 40px var(--red-dim);
+    }
+
+    .hero-sub {
+      font-family: var(--body);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+
+    .badge:hover {
+      border-color: var(--red);
+      color: var(--text);
+      background: var(--bg3);
+      box-shadow: 0 0 12px rgba(232,50,26,0.15);
+    }
+
+    .badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(232,50,26,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-glow);
+      box-shadow: 0 0 30px rgba(255,68,34,0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--red-dim);
+      background: var(--bg3);
+    }
+
+    /* Glowing orb */
+    .hero-orb {
+      position: absolute;
+      top: 20%;
+      right: 5%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(232,50,26,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--red);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-label::before { content: '// '; opacity: 0.5; }
+
+    .section-title {
+      font-family: var(--pixel);
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: #fff;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red-dim), transparent);
+      margin-bottom: 2.5rem;
+      opacity: 0.4;
+    }
+
+    /* ─── ABOUT GRID ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .about-card:hover {
+      border-color: var(--red-dim);
+      box-shadow: 0 0 20px rgba(232,50,26,0.08);
+    }
+
+    .about-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .about-card h3 {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .about-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── PROJECTS ─── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.8rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--red);
+      box-shadow: 0 0 12px var(--red);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: var(--red-dim);
+      background: var(--bg3);
+      transform: translateX(4px);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card h3 {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.05em;
+    }
+
+    .project-card p {
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      padding: 0.2rem 0.5rem;
+      background: rgba(232,50,26,0.1);
+      border: 1px solid rgba(232,50,26,0.2);
+      border-radius: 3px;
+      color: var(--red);
+      letter-spacing: 0.05em;
+    }
+
+    .project-arrow {
+      color: var(--muted);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover .project-arrow {
+      color: var(--red);
+      transform: translateX(4px);
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red-dim); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+    /* ─── TERMINAL BLINK ─── */
+    .cursor {
+      display: inline-block;
+      width: 10px; height: 1.2em;
+      background: var(--red-glow);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">RedstoneMaster01</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="https://github.com/RedstoneMaster011" target="_blank" rel="noopener" class="nav-icon" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a></li>
+      <li><a href="https://www.youtube.com/@RedstoneMaster01" target="_blank" rel="noopener" class="nav-icon" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-orb"></div>
+    <div class="hero-inner">
+      <h1 class="hero-name">
+        I'm <span>RedstoneMaster01</span><br>
+        I Code &amp; Build Stuff.
+      </h1>
+      <p class="hero-sub">
+        Minecraft mods, Portal mods, software tools, and everything in between.<br>
+        <strong>Turning ideas into working things</strong> — one commit at a time.
+      </p>
+      <div class="hero-badges">
+        <a class="badge" href="https://github.com/RedstoneMaster011" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a class="badge" href="https://www.youtube.com/@RedstoneMaster01" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn btn-ghost" href="https://github.com/RedstoneMaster011" target="_blank" rel="noopener">GitHub Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">What I Work On</h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-card-icon">⛏️</div>
+        <h3>Minecraft Modding</h3>
+        <p>Building mods and tools that extend the Minecraft experience with new gameplay mechanics and more.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🌀</div>
+        <h3>Portal Modding</h3>
+        <p>Creating mods and tools that extend the Portal experience with new mechanics and more.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">💻</div>
+        <h3>Software Development</h3>
+        <p>Building software tools, game tooling, and everything in between — turning ideas into working things.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Work</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="divider"></div>
+    <div class="projects-list">
+      <a class="project-card" href="https://github.com/RedstoneMaster011/Vetheroac" target="_blank" rel="noopener">
+        <div>
+          <h3>Vetheroac</h3>
+          <p>A Fabric 1.20.1 mod that adds custom physics and explosions to the game.</p>
+          <div class="project-tags">
+            <span class="tag">Java</span>
+            <span class="tag">Fabric</span>
+            <span class="tag">Minecraft</span>
+          </div>
+        </div>
+        <span class="project-arrow">→</span>
+      </a>
+      <a class="project-card" href="https://github.com/RedstoneMaster011/animated-java-to-df-updated" target="_blank" rel="noopener">
+        <div>
+          <h3>animated-java-to-df-updated</h3>
+          <p>A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition, but for DiamondFire!</p>
+          <div class="project-tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Blockbench</span>
+            <span class="tag">Minecraft</span>
+          </div>
+        </div>
+        <span class="project-arrow">→</span>
+      </a>
+      <a class="project-card" href="https://github.com/RedstoneMaster011/TreeFalling" target="_blank" rel="noopener">
+        <div>
+          <h3>TreeFalling</h3>
+          <p>A Fabric 1.21.1 mod that adds physics-based tree chopping mechanics.</p>
+          <div class="project-tags">
+            <span class="tag">Java</span>
+            <span class="tag">Fabric</span>
+            <span class="tag">Minecraft</span>
+          </div>
+        </div>
+        <span class="project-arrow">→</span>
+      </a>
+      <a class="project-card" href="https://github.com/RedstoneMaster011/OperationCrafter" target="_blank" rel="noopener">
+        <div>
+          <h3>OperationCrafter</h3>
+          <p>A visual IDE for creating bootable 16-bit floppy disk operating systems.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">IDE</span>
+            <span class="tag">Low-level</span>
+          </div>
+        </div>
+        <span class="project-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+</body>
+</html>
