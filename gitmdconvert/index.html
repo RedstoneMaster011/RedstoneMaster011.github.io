@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitMD Convert - RedstoneMaster01</title>
+  <meta name="description" content="Convert GitHub-flavored Markdown into a clean printable PDF preview." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #090a0c;
+      --bg-soft: #0f1318;
+      --panel: #121820;
+      --panel-strong: #17202a;
+      --line: #29313c;
+      --line-hot: #7a2419;
+      --text: #f0ede8;
+      --muted: #9b918b;
+      --red: #e8321a;
+      --red-hot: #ff4d2e;
+      --amber: #f0b84f;
+      --cyan: #50c7d8;
+      --paper: #ffffff;
+      --ink: #24292f;
+      --paper-muted: #57606a;
+      --paper-line: #d0d7de;
+      --mono: 'Share Tech Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+      --pixel: 'Press Start 2P', ui-monospace, monospace;
+      --body: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html { min-height: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(232, 50, 26, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 199, 216, 0.025) 1px, transparent 1px),
+        var(--bg);
+      background-size: 38px 38px, 38px 38px, auto;
+      font-family: var(--body);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    .app-shell {
+      width: min(1480px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .topbar {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 4px 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-hot);
+      border-radius: 6px;
+      color: var(--red-hot);
+      background: rgba(232, 50, 26, 0.08);
+      box-shadow: 0 0 20px rgba(232, 50, 26, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .brand-text {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-family: var(--pixel);
+      font-size: 0.58rem;
+      line-height: 1.5;
+      color: #fff;
+    }
+
+    .brand-sub {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 0 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--pixel);
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: #fff;
+      text-shadow: 0 0 22px rgba(255, 77, 46, 0.24);
+    }
+
+    .status-line {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+    }
+
+    .status-line[data-tone="good"] { color: #8de1b1; }
+    .status-line[data-tone="warn"] { color: var(--amber); }
+    .status-line[data-tone="bad"] { color: #ff9180; }
+
+    .btn {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 13px;
+      border-radius: 6px;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      transition: transform 0.16s, border-color 0.16s, background 0.16s, color 0.16s;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-hot);
+      background: var(--panel-strong);
+      color: #fff;
+    }
+
+    .btn:focus-visible,
+    .url-input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      border-color: var(--red-hot);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(232, 50, 26, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-hot);
+      border-color: var(--red-hot);
+    }
+
+    .btn-danger:hover {
+      color: #fff;
+      border-color: #a33b2c;
+    }
+
+    .btn svg,
+    .brand-mark svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.8;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
+      gap: 16px;
+      align-items: stretch;
+      min-height: calc(100vh - 154px);
+    }
+
+    .input-pane,
+    .preview-pane {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(18, 24, 32, 0.94);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .input-pane {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+    }
+
+    .preview-pane {
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .pane-bar {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(23, 32, 42, 0.76);
+    }
+
+    .pane-title {
+      margin: 0;
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.92rem;
+    }
+
+    .pane-meta {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+    }
+
+    .control-stack {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .url-row,
+    .file-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .file-row {
+      grid-template-columns: repeat(3, auto) 1fr;
+      justify-content: start;
+    }
+
+    .url-input {
+      width: 100%;
+      min-width: 0;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 6px;
+      color: var(--text);
+      background: #0b0f14;
+      border: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 0.84rem;
+    }
+
+    .url-input::placeholder,
+    textarea::placeholder {
+      color: #6f777f;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 360px;
+      height: 100%;
+      resize: none;
+      padding: 16px;
+      color: #ece7e2;
+      background: #090c10;
+      border: 0;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      tab-size: 2;
+    }
+
+    .editor-wrap {
+      min-height: 0;
+      display: grid;
+    }
+
+    .editor-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 42px;
+      padding: 8px 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+    }
+
+    .drop-hint {
+      justify-self: end;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+    }
+
+    .preview-scroll {
+      min-height: 0;
+      overflow: auto;
+      padding: 18px;
+      background:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%),
+        #0b0e12;
+      background-size: 28px 28px;
+    }
+
+    .paper {
+      width: min(100%, 900px);
+      min-height: calc(100vh - 230px);
+      margin: 0 auto;
+      padding: 48px;
+      color: var(--ink);
+      background: var(--paper);
+      border-radius: 4px;
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.32);
+    }
+
+    .markdown-body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-wrap: break-word;
+    }
+
+    .markdown-body > *:first-child { margin-top: 0 !important; }
+    .markdown-body > *:last-child { margin-bottom: 0 !important; }
+
+    .markdown-body a {
+      color: #0969da;
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover { text-decoration: underline; }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+      margin: 24px 0 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .markdown-body h1 {
+      padding-bottom: 0.3em;
+      font-size: 2em;
+      border-bottom: 1px solid var(--paper-line);
+    }
+
+    .markdown-body h2 {
+      padding-bottom: 0.3em;
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--paper-line);
+    }
+
+    .markdown-body h3 { font-size: 1.25em; }
+    .markdown-body h4 { font-size: 1em; }
+    .markdown-body h5 { font-size: 0.875em; }
+    .markdown-body h6 { font-size: 0.85em; color: var(--paper-muted); }
+
+    .markdown-body p,
+    .markdown-body blockquote,
+    .markdown-body ul,
+    .markdown-body ol,
+    .markdown-body dl,
+    .markdown-body table,
+    .markdown-body pre,
+    .markdown-body details {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body blockquote {
+      padding: 0 1em;
+      color: var(--paper-muted);
+      border-left: 0.25em solid var(--paper-line);
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding-left: 2em;
+    }
+
+    .markdown-body li + li { margin-top: 0.25em; }
+    .markdown-body li > p { margin-top: 16px; }
+
+    .markdown-body code,
+    .markdown-body tt {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 85%;
+      background-color: rgba(175, 184, 193, 0.2);
+      border-radius: 6px;
+    }
+
+    .markdown-body pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+
+    .markdown-body table th,
+    .markdown-body table td {
+      padding: 6px 13px;
+      border: 1px solid var(--paper-line);
+    }
+
+    .markdown-body table tr {
+      background-color: var(--paper);
+      border-top: 1px solid hsla(210, 18%, 87%, 1);
+    }
+
+    .markdown-body table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--paper);
+    }
+
+    .markdown-body hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #d8dee4;
+      border: 0;
+    }
+
+    .markdown-body kbd {
+      display: inline-block;
+      padding: 3px 5px;
+      font: 11px ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      line-height: 10px;
+      color: var(--ink);
+      vertical-align: middle;
+      background-color: #f6f8fa;
+      border: solid 1px rgba(175, 184, 193, 0.8);
+      border-bottom-color: rgba(175, 184, 193, 0.8);
+      border-radius: 6px;
+      box-shadow: inset 0 -1px 0 rgba(175, 184, 193, 0.25);
+    }
+
+    .markdown-body .contains-task-list {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .markdown-body .task-list-item {
+      list-style-type: none;
+    }
+
+    .markdown-body .task-list-item input {
+      margin: 0 0.5em 0.25em -1.4em;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 940px) {
+      .workspace {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .input-pane,
+      .preview-pane {
+        min-height: 520px;
+      }
+
+      .tool-header,
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .app-shell {
+        padding: 12px;
+      }
+
+      .url-row,
+      .file-row {
+        grid-template-columns: 1fr;
+      }
+
+      .drop-hint {
+        justify-self: start;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .top-actions {
+        width: 100%;
+      }
+
+      .paper {
+        padding: 28px 20px;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 0.65in;
+      }
+
+      html,
+      body {
+        background: #fff !important;
+      }
+
+      .app-shell {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .topbar,
+      .tool-header,
+      .input-pane,
+      .pane-bar {
+        display: none !important;
+      }
+
+      .workspace,
+      .preview-pane,
+      .preview-scroll {
+        display: block;
+        min-height: 0;
+        border: 0;
+        background: #fff !important;
+        box-shadow: none;
+        overflow: visible;
+        padding: 0;
+      }
+
+      .paper {
+        width: 100%;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .markdown-body {
+        color: var(--ink);
+      }
+
+      .markdown-body a {
+        color: #0969da;
+      }
+
+      .markdown-body pre,
+      .markdown-body blockquote,
+      .markdown-body table,
+      .markdown-body img {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="Back to RedstoneMaster01 home">
+        <span class="brand-mark"><i data-lucide="git-branch"></i></span>
+        <span class="brand-text">
+          <span class="brand-title">GitMD Convert</span>
+          <span class="brand-sub">RedstoneMaster01</span>
+        </span>
+      </a>
+      <div class="top-actions">
+        <a class="btn" href="../"><i data-lucide="home"></i><span>Home</span></a>
+        <a class="btn" href="https://github.com/RedstoneMaster011/RedstoneMaster011.github.io" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Repo</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="tool-header" aria-labelledby="page-title">
+        <div>
+          <h1 id="page-title">GitHub Markdown To PDF</h1>
+          <div id="statusLine" class="status-line" aria-live="polite">Ready.</div>
+        </div>
+        <div class="top-actions">
+          <button class="btn" type="button" id="sampleButton" title="Load sample Markdown"><i data-lucide="sparkles"></i><span>Sample</span></button>
+          <button class="btn btn-danger" type="button" id="clearButton" title="Clear Markdown"><i data-lucide="trash-2"></i><span>Clear</span></button>
+          <button class="btn btn-primary" type="button" id="savePdfButton" title="Save the preview as a PDF"><i data-lucide="file-down"></i><span>Save PDF</span></button>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Markdown converter workspace">
+        <div class="input-pane">
+          <div class="pane-bar">
+            <h2 class="pane-title">Markdown</h2>
+            <span class="pane-meta" id="sourceMeta">Manual input</span>
+          </div>
+
+          <div class="control-stack">
+            <div class="url-row">
+              <input class="url-input" id="rawUrl" type="url" placeholder="https://raw.githubusercontent.com/user/repo/main/README.md" autocomplete="off" spellcheck="false" />
+              <button class="btn" type="button" id="loadUrlButton"><i data-lucide="download"></i><span>Load URL</span></button>
+            </div>
+            <div class="file-row">
+              <input id="fileInput" type="file" accept=".md,.markdown,.mdown,.mkd,.txt,text/markdown,text/plain" hidden />
+              <button class="btn" type="button" id="fileButton"><i data-lucide="file-up"></i><span>Upload .md</span></button>
+              <button class="btn" type="button" id="saveHtmlButton"><i data-lucide="save"></i><span>Save HTML</span></button>
+              <button class="btn" type="button" id="copyHtmlButton"><i data-lucide="copy"></i><span>Copy HTML</span></button>
+              <span class="drop-hint" id="dropHint">Drop a Markdown file here</span>
+            </div>
+          </div>
+
+          <div class="editor-wrap" id="dropZone">
+            <textarea id="markdownInput" spellcheck="false" placeholder="# Title&#10;&#10;Paste GitHub Markdown here."></textarea>
+          </div>
+
+          <div class="editor-footer">
+            <span id="countMeta">0 chars</span>
+            <span id="renderMeta">0 words</span>
+          </div>
+        </div>
+
+        <div class="preview-pane">
+          <div class="pane-bar">
+            <h2 class="pane-title">Preview</h2>
+            <span class="pane-meta" id="previewMeta">GitHub style</span>
+          </div>
+          <div class="preview-scroll">
+            <article class="paper markdown-body" id="preview" tabindex="0"></article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    (() => {
+      const markdownInput = document.getElementById('markdownInput');
+      const rawUrl = document.getElementById('rawUrl');
+      const loadUrlButton = document.getElementById('loadUrlButton');
+      const fileInput = document.getElementById('fileInput');
+      const fileButton = document.getElementById('fileButton');
+      const sampleButton = document.getElementById('sampleButton');
+      const clearButton = document.getElementById('clearButton');
+      const savePdfButton = document.getElementById('savePdfButton');
+      const saveHtmlButton = document.getElementById('saveHtmlButton');
+      const copyHtmlButton = document.getElementById('copyHtmlButton');
+      const preview = document.getElementById('preview');
+      const dropZone = document.getElementById('dropZone');
+      const dropHint = document.getElementById('dropHint');
+      const statusLine = document.getElementById('statusLine');
+      const sourceMeta = document.getElementById('sourceMeta');
+      const countMeta = document.getElementById('countMeta');
+      const renderMeta = document.getElementById('renderMeta');
+
+      const sampleMarkdown = `# GitMD Convert
+
+This preview uses **GitHub-flavored Markdown** with tables, task lists, code blocks, quotes, and images.
+
+## Checklist
+
+- [x] Paste Markdown
+- [x] Upload a local .md file
+- [x] Load a raw GitHub URL
+- [ ] Print or save as PDF
+
+## Table
+
+| Feature | Status |
+| --- | --- |
+| Headings | Working |
+| Lists | Working |
+| Code | Working |
+
+> Blockquotes render in GitHub style and print cleanly.
+
+\`\`\`js
+const message = "Markdown becomes a printable document.";
+console.log(message);
+\`\`\`
+`;
+
+      const state = {
+        baseUrl: '',
+        sourceName: 'Manual input'
+      };
+
+      if (window.marked) {
+        marked.setOptions({
+          gfm: true,
+          breaks: false
+        });
+      }
+
+      function setStatus(message, tone = '') {
+        statusLine.textContent = message;
+        statusLine.dataset.tone = tone;
+      }
+
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function fallbackRender(markdown) {
+        return '<pre><code>' + escapeHtml(markdown) + '</code></pre>';
+      }
+
+      function getPrintableTitle(markdown) {
+        const match = markdown.match(/^#\s+(.+)$/m);
+        if (!match) return 'GitMD Convert - RedstoneMaster01';
+        return match[1].replace(/[#*_`[\]()]/g, '').trim() + ' - GitMD Convert';
+      }
+
+      function getDocumentName(markdown) {
+        const match = markdown.match(/^#\s+(.+)$/m);
+        const rawName = match ? match[1] : state.sourceName;
+        const cleanName = rawName
+          .replace(/[#*_`[\]()]/g, '')
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 80);
+
+        return cleanName || 'markdown-document';
+      }
+
+      function normalizeSourceUrl(value) {
+        const url = new URL(value);
+
+        if (url.hostname === 'github.com') {
+          const parts = url.pathname.split('/').filter(Boolean);
+          const mode = parts[2];
+
+          if (parts.length >= 5 && (mode === 'blob' || mode === 'raw')) {
+            const owner = parts[0];
+            const repo = parts[1];
+            const branch = parts[3];
+            const filePath = parts.slice(4).join('/');
+            return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
+          }
+        }
+
+        return url.href;
+      }
+
+      function baseFromUrl(value) {
+        const url = new URL(value);
+        const href = url.href.split('#')[0].split('?')[0];
+        return href.slice(0, href.lastIndexOf('/') + 1);
+      }
+
+      function resolveRelativePreviewUrls() {
+        if (!state.baseUrl) return;
+
+        preview.querySelectorAll('a[href]').forEach((link) => {
+          const rawHref = link.getAttribute('href');
+          if (!rawHref || rawHref.startsWith('#')) return;
+
+          try {
+            const resolved = new URL(rawHref, state.baseUrl);
+            if (resolved.protocol === 'http:' || resolved.protocol === 'https:') {
+              link.href = resolved.href;
+              link.target = '_blank';
+              link.rel = 'noopener';
+            } else if (resolved.protocol === 'mailto:' || resolved.protocol === 'tel:') {
+              link.href = resolved.href;
+            }
+          } catch (error) {
+            return;
+          }
+        });
+
+        preview.querySelectorAll('img[src]').forEach((image) => {
+          const rawSrc = image.getAttribute('src');
+          if (!rawSrc || rawSrc.startsWith('data:')) return;
+
+          try {
+            const resolved = new URL(rawSrc, state.baseUrl);
+            if (resolved.protocol === 'http:' || resolved.protocol === 'https:') {
+              image.src = resolved.href;
+            }
+          } catch (error) {
+            return;
+          }
+        });
+      }
+
+      function renderMarkdown() {
+        const markdown = markdownInput.value;
+        let html = '';
+
+        try {
+          html = window.marked ? marked.parse(markdown) : fallbackRender(markdown);
+        } catch (error) {
+          html = fallbackRender(markdown);
+          setStatus('Markdown parser hit an error, showing escaped text.', 'warn');
+        }
+
+        if (window.DOMPurify) {
+          html = DOMPurify.sanitize(html, {
+            ADD_TAGS: ['input'],
+            ADD_ATTR: ['checked', 'disabled', 'type', 'class', 'align']
+          });
+        } else {
+          html = fallbackRender(markdown);
+          setStatus('Sanitizer did not load, showing escaped text.', 'warn');
+        }
+
+        preview.innerHTML = html || '<p></p>';
+        preview.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+          checkbox.disabled = true;
+          checkbox.closest('li')?.classList.add('task-list-item');
+          checkbox.closest('ul, ol')?.classList.add('contains-task-list');
+        });
+        preview.querySelectorAll('a[href]').forEach((link) => {
+          const href = link.getAttribute('href');
+          if (href && /^(https?:)?\/\//i.test(href)) {
+            link.target = '_blank';
+            link.rel = 'noopener';
+          }
+        });
+        resolveRelativePreviewUrls();
+
+        const charCount = markdown.length;
+        const words = markdown.trim() ? markdown.trim().split(/\s+/).length : 0;
+        countMeta.textContent = `${charCount.toLocaleString()} chars`;
+        renderMeta.textContent = `${words.toLocaleString()} words`;
+        sourceMeta.textContent = state.sourceName;
+        document.title = getPrintableTitle(markdown);
+      }
+
+      function setMarkdown(value, sourceName = 'Manual input', baseUrl = '') {
+        markdownInput.value = value;
+        state.sourceName = sourceName;
+        state.baseUrl = baseUrl;
+        renderMarkdown();
+      }
+
+      async function loadFromUrl() {
+        const value = rawUrl.value.trim();
+        if (!value) {
+          setStatus('Paste a raw Markdown URL first.', 'warn');
+          rawUrl.focus();
+          return;
+        }
+
+        let normalized = '';
+        try {
+          normalized = normalizeSourceUrl(value);
+        } catch (error) {
+          setStatus('That URL does not look valid.', 'bad');
+          return;
+        }
+
+        setStatus('Loading Markdown...', '');
+        loadUrlButton.disabled = true;
+
+        try {
+          const response = await fetch(normalized, { credentials: 'omit' });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const text = await response.text();
+          setMarkdown(text, 'Raw URL', baseFromUrl(normalized));
+          setStatus('Loaded raw Markdown.', 'good');
+        } catch (error) {
+          setStatus('Could not load that URL. Try GitHub raw view or paste the file contents.', 'bad');
+        } finally {
+          loadUrlButton.disabled = false;
+        }
+      }
+
+      function readFile(file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setMarkdown(String(reader.result || ''), file.name, '');
+          setStatus(`Loaded ${file.name}.`, 'good');
+        };
+        reader.onerror = () => {
+          setStatus('Could not read that file.', 'bad');
+        };
+        reader.readAsText(file);
+      }
+
+      function copyPreviewHtml() {
+        const html = preview.innerHTML;
+        if (!navigator.clipboard) {
+          setStatus('Clipboard access is not available in this browser.', 'warn');
+          return;
+        }
+
+        navigator.clipboard.writeText(html)
+          .then(() => setStatus('Copied preview HTML.', 'good'))
+          .catch(() => setStatus('Could not copy HTML.', 'bad'));
+      }
+
+      function downloadTextFile(filename, mimeType, content) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function buildExportHtml() {
+        renderMarkdown();
+
+        const pageStyles = document.querySelector('style')?.textContent || '';
+        const title = getPrintableTitle(markdownInput.value).replace(/\s+-\s+GitMD Convert$/, '');
+        const exportedAt = new Date().toLocaleString();
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(title)}</title>
+  <style>
+${pageStyles}
+    body {
+      margin: 0;
+      padding: 48px;
+      color: #24292f;
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    body::before,
+    body::after,
+    .app-shell,
+    .topbar,
+    .tool-header,
+    .input-pane,
+    .preview-pane .pane-bar {
+      display: none !important;
+    }
+
+    .export-document {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .export-meta {
+      margin-top: 32px;
+      color: #57606a;
+      font-size: 12px;
+      border-top: 1px solid #d0d7de;
+      padding-top: 12px;
+    }
+
+    @media print {
+      @page { margin: 0.65in; }
+      body { padding: 0; }
+      .export-document { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="export-document markdown-body">
+${preview.innerHTML}
+    <div class="export-meta">Exported from GitMD Convert on ${escapeHtml(exportedAt)}</div>
+  </main>
+</body>
+</html>`;
+      }
+
+      function saveHtmlFile() {
+        const filename = `${getDocumentName(markdownInput.value)}.html`;
+        downloadTextFile(filename, 'text/html;charset=utf-8', buildExportHtml());
+        setStatus(`Saved ${filename}.`, 'good');
+      }
+
+      function savePdfFile() {
+        renderMarkdown();
+        setStatus('Use Save as PDF in the print dialog.', 'good');
+        window.print();
+      }
+
+      markdownInput.addEventListener('input', () => {
+        state.sourceName = 'Manual input';
+        state.baseUrl = '';
+        renderMarkdown();
+        setStatus('Ready.');
+      });
+
+      rawUrl.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          loadFromUrl();
+        }
+      });
+
+      loadUrlButton.addEventListener('click', loadFromUrl);
+      fileButton.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', () => readFile(fileInput.files[0]));
+      sampleButton.addEventListener('click', () => {
+        setMarkdown(sampleMarkdown, 'Sample Markdown', '');
+        setStatus('Loaded sample Markdown.', 'good');
+      });
+      clearButton.addEventListener('click', () => {
+        setMarkdown('', 'Manual input', '');
+        rawUrl.value = '';
+        setStatus('Cleared.', 'good');
+        markdownInput.focus();
+      });
+      savePdfButton.addEventListener('click', savePdfFile);
+      saveHtmlButton.addEventListener('click', saveHtmlFile);
+      copyHtmlButton.addEventListener('click', copyPreviewHtml);
+
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropHint.textContent = 'Release to load file';
+        });
+      });
+
+      ['dragleave', 'drop'].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropHint.textContent = 'Drop a Markdown file here';
+        });
+      });
+
+      dropZone.addEventListener('drop', (event) => {
+        const file = event.dataTransfer.files[0];
+        readFile(file);
+      });
+
+      setMarkdown(sampleMarkdown, 'Sample Markdown', '');
+      setStatus('Ready.');
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    })();
+  </script>
+</body>
+</html>
